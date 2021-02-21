@@ -44,28 +44,29 @@ void setup()
 void draw()
 {
     int pointNum = 200;
-    float [][] pointArray = new float[pointNum][2];
+    PVector[] pointArray = new PVector[pointNum];
     for(int i=0; i<pointNum; i++)
     {
+        pointArray[i] = new PVector(0, 0);
         if(i%4 == 0)
         {
-            pointArray[i][0] = 1;
-            pointArray[i][1] = random(height);
+            pointArray[i].x = 1;
+            pointArray[i].y = random(height);
         }
         else if(i%4 == 1)
         {
-            pointArray[i][0] = width;
-            pointArray[i][1] = random(height);
+            pointArray[i].x = width;
+            pointArray[i].y = random(height);
         }
         else if(i%4 == 2)
         {
-            pointArray[i][0] = random(width);
-            pointArray[i][1] = 1;
+            pointArray[i].x = random(width);
+            pointArray[i].y = 1;
         }
         else if(i%4 == 3)
         {
-            pointArray[i][0] = random(width);
-            pointArray[i][1] = height;
+            pointArray[i].x = random(width);
+            pointArray[i].y = height;
         }
     }
 
@@ -74,10 +75,8 @@ void draw()
     {
         int clr[] = new int[1];
         clr[0] = colorArray[int(random(colorArray.length))];
-        PVector start_point = new PVector(pointArray[i][0], pointArray[i][1]);
-        PVector end_point = new PVector(pointArray[i+1][0], pointArray[i+1][1]);
-        draw_crayon_like_line(start_point,
-                              end_point,
+        draw_crayon_like_line(pointArray[i],
+                              pointArray[i+1],
                               clr,
                               random(128, 204),
                               12);
