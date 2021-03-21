@@ -1,0 +1,68 @@
+■テクニック
+1. colorModeをHSBにしてHだけrandomにすると彩度と明度と透明度が揃った色のランダムにできる.
+1. 適度にノイズを混ぜてやるとディジタルっぽさがなくなり自然に見えやすい
+1. ramdomSeed(定数)とするとrandom系の関数で生成される値が同じになる
+1. ProcessingでrandomSeed()で値が固定できるもの -> random, noise
+1. PImage.set()したときは、PImage.updatePixels()してはいけないっぽい
+1. PImage.pixelsに直接代入したときはupdatePixels()する必要がある
+
+■p5.js->processingの変換
+1. 型情報を足す
+1. shuffle()はIntList.shuffle()で置換可能(randomSeedの部分で置換不可かも) -> Fisher-Yates のシャッフルらしく自前実装すればよい
+https://p5js.org/reference/#/p5/shuffle
+1. 色コードはp5では文字列で扱えるがprocessingではunhex()して変換する必要がある
+1. pop/push -> popMatrix/pushMatrixとなる
+1. createCanvas -> size
+1. PGraphicsのloadPixelsを呼ぶ前にcreateGraphics(),beginDraw()の順で呼ぶ必要がある
+1. random()が使えない？
+1. PImageまわりも差分がありそう
+
+
+■processingの自作ライブラリの作りかた
+library/に.jarファイルを置けば良さそう
+import processing.core.*;
+メンバに PAppletを持つことがコツ
+pacakge名は適当につける
+https://pvcresin.hatenablog.com/entry/2016/03/17/223048
+Processing 3.0.2はjava8らしい
+https://qiita.com/aoyaman/items/fdbc1b35ce841f730afc
+https://qiita.com/seijikohara/items/56cc4ac83ef9d686fab2
+java8は大人の事情でインストールできんので代替品を使用する
+https://qiita.com/d_forest/items/290bb05bb929e5d74647
+
+https://tkitao.hatenablog.com/entry/2015/09/22/154430
+https://sites.google.com/site/gutugutu30/other/processingnoraiburariwozuoru
+ディレクトリ名 = package名
+ファイル名 = class名
+にする必要がある
+
+javac -cp /Applications/Processing.app/Contents/Java/core/library/core.jar MLib.java
+
+
+
+■jarの作り方
+https://qiita.com/gakuseikai/items/255a4e594a31955fa997
+ディレクトリ配置
+プロジェクトルート
+  src        : ファイルを配置
+  classes　　 : classファイルの出力先
+  META-INFO  : manifestファイルの置き場
+    MANIFEST.MF
+
+・MANIFEST.MFの中身
+Main-Class: MyLib.MLib
+:のあとの半角スペースは必須
+
+・打つコマンド
+javac -sourcepath src -cp /Applications/Processing.app/Contents/Java/core/library/core.jar -d classes src/MyLib/MLib.java
+javac -sourcepath src -cp '/Applications/Processing.app/Contents/Java/core/library/*' MySketch.java
+したのがオススメらしい、3Dでも行けるので
+jar cvfm MyLib.jar META-INFO/MANIFEST.MF -C classes .
+
+とりあえずスケッチがあるパス/code/hoge.jar
+でいけるらしい、
+libraliesに置くときは
+Processing/librarlies/MyLib(パッケージ名)/library/MyLib.jar
+とすればよいっぽい
+Processingのメニューのライブラリをインポートから見えていれば成功
+
