@@ -1,7 +1,9 @@
 ///
 /// this code is origin https://cc.musabi.ac.jp/kenkyu/cf/renew/program/processing/processing18.html
 ///
+import MyLib.*;
 int[] colorArray = new int[24];
+Core core = new Core(this);
 
 void settings()
 {
@@ -70,12 +72,12 @@ void draw()
         }
     }
 
-    // for(int i=0; i<pointNum-1; i++)
-    for(int i=0; i<1; i++)
+     for(int i=0; i<pointNum-1; i++)
+    //for(int i=0; i<1; i++)
     {
         int clr[] = new int[1];
         clr[0] = colorArray[int(random(colorArray.length))];
-        draw_crayon_like_line(pointArray[i],
+        core.draw_crayon_like_line(pointArray[i],
                               pointArray[i+1],
                               clr,
                               random(128, 204),

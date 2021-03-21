@@ -1,3 +1,5 @@
+import MyLib.*;
+Core core = new Core(this);
 void setup() {
   size( 500, 500 );
   background( 255 );
@@ -21,30 +23,8 @@ void draw() {
       float drawPointY = leftX + i * shapePitch;
        
       float colorHue = random( 360 );
-      fill( colorHue, 70, 100, 60 );
-      noStroke();
-      drawShape( drawPointX, drawPointY, shapeSize );
+      color cls = color( colorHue, 70, 100, 60 );
+      core.draw_crescent( drawPointX, drawPointY, shapeSize, cls );
     }
   }
- 
-}
- 
-void drawShape( float centerX, float centerY, int drawSize ) {
- 
-  float tmpX = random( -drawSize/4, drawSize/4 );
-  float yuragiX = random( 5 );
-   
-  float topX = centerX + tmpX;
-  float bottomX = centerX - tmpX;
- 
-  beginShape();
-  vertex( topX, centerY - drawSize/2 );
-  bezierVertex( topX + yuragiX, centerY - drawSize/4,
-                topX + yuragiX, centerY,
-                bottomX, centerY + drawSize/2 );
-  bezierVertex( topX - yuragiX, centerY,
-                topX - yuragiX, centerY - drawSize/4,
-                topX, centerY - drawSize/2 );
-  endShape();
- 
 }

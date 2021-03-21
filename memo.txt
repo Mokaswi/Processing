@@ -54,10 +54,8 @@ Main-Class: MyLib.MLib
 :のあとの半角スペースは必須
 
 ・打つコマンド
-javac -sourcepath src -cp /Applications/Processing.app/Contents/Java/core/library/core.jar -d classes src/MyLib/MLib.java
-javac -sourcepath src -cp '/Applications/Processing.app/Contents/Java/core/library/*' MySketch.java
-したのがオススメらしい、3Dでも行けるので
-jar cvfm MyLib.jar META-INFO/MANIFEST.MF -C classes .
+javac -sourcepath src -cp '/Applications/Processing.app/Contents/Java/core/library/*' -d classes src/MyLib/Core.java
+jar cvfm library/MyLib.jar META-INFO/MANIFEST.MF -C classes .
 
 とりあえずスケッチがあるパス/code/hoge.jar
 でいけるらしい、
