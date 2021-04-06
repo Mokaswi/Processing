@@ -275,4 +275,148 @@ public class Core {
         pa.endShape();
         
     }
+    public void draw_sierpinski_gasket(int x1, int y1, int x2, int y2, int x3, int y3,  int num)
+    {
+        int[][][] state = {{{x1, y1}, {x2, y2}, {x3, y3}}};
+        for(int i=0; i<num; i++)
+        {
+            state = draw_sierpinski_gasket_i(state);
+        }
+    }
+    
+    public int[][][] draw_sierpinski_gasket_i(int[][][] state)
+    {
+        pa.background(255);
+        pa.noStroke();
+        for(int i=0; i<state.length; ++i)
+        {
+            pa.fill(0);
+            pa.triangle(state[i][0][0], state[i][0][1],
+                     state[i][1][0], state[i][1][1],
+                     state[i][2][0], state[i][2][1]);
+        }
+        int[][][] newState = new int[state.length*3][3][2];
+        for(int i=0; i<newState.length; ++i)
+        {
+            int index = i/3;
+            if(i%3 == 0)
+            {
+                newState[i][0][0] = state[index][0][0];
+                newState[i][0][1] = state[index][0][1];
+                newState[i][1][0] = (int)(0.5*(state[index][1][0] + state[index][0][0]));
+                newState[i][1][1] = (int)(0.5*(state[index][1][1] + state[index][0][1]));
+                newState[i][2][0] = (int)(0.5*(state[index][0][0] + state[index][2][0]));
+                newState[i][2][1] = (int)(0.5*(state[index][0][1] + state[index][2][1]));
+            }
+            else if(i%3 == 1)
+            {
+                newState[i][0][0] = (int)(0.5*(state[index][1][0] + state[index][0][0]));
+                newState[i][0][1] = (int)(0.5*(state[index][1][1] + state[index][0][1]));
+                newState[i][1][0] = state[index][1][0];
+                newState[i][1][1] = state[index][1][1];
+                newState[i][2][0] = (int)(0.5*(state[index][2][0] + state[index][1][0]));
+                newState[i][2][1] = (int)(0.5*(state[index][2][1] + state[index][1][1]));
+            }
+            else
+            {
+                newState[i][0][0] = (int)(0.5*(state[index][0][0] + state[index][2][0]));
+                newState[i][0][1] = (int)(0.5*(state[index][0][1] + state[index][2][1]));
+                newState[i][1][0] = (int)(0.5*(state[index][2][0] + state[index][1][0]));
+                newState[i][1][1] = (int)(0.5*(state[index][2][1] + state[index][1][1]));
+                newState[i][2][0] = state[index][2][0];
+                newState[i][2][1] = state[index][2][1];
+            }
+        }
+        return newState;
+    }
+
+    public static enum Direction
+    {
+        X,
+        Y,
+    }
+    public static enum DrawMode
+    {
+        Parallel_to_coordinate,
+        Vertical_to_line,
+    }
+    public void draw_while_noise_line(float xs, float ys, float xe, float ye, float size, float range, DrawMode drawMode, Direction direction)
+    {
+        float slope = 0;
+        float rad = 0;
+        if(xe != xs)
+        {
+            slope = (ye-ys) / (xe-xs);
+            rad = pa.atan2(ye - ys, xe - xs);
+        }
+        else
+        {
+            slope = 1;
+            rad = (float)0.5*pa.PI;
+        }
+        float x_on_line = xs;
+        float y_on_line = ys;
+        float x0 = xs;
+        float y0 = ys;
+        int[] sign_list = new int[]{-1, 1};
+        while(x_on_line <= xe + 0.1
+        &&    y_on_line <= ye + 0.1)
+        {
+            float diff = (float)0.5*size;
+            float x_on_line_diff = diff*pa.cos(rad);
+            float y_on_line_diff = x_on_line_diff * slope;
+            if(rad == 0.5*pa.PI)
+            {
+                x_on_line_diff = 0;
+                y_on_line_diff = diff;
+            }
+            x_on_line += x_on_line_diff;
+            y_on_line += y_on_line_diff;
+            float x1 = 0;
+            float y1 = 0;
+            if(drawMode == DrawMode.Vertical_to_line)
+            {
+                float _diff = pa.random(-range, range);
+                if(pa.random(1) >= 0.80)
+                {
+                    _diff = random_from_array(sign_list) * pa.random(range, 3*range);
+                }
+                x1 = x_on_line + _diff * (-1) * pa.sin(rad);
+                y1 = y_on_line + _diff * pa.cos(rad);
+                if(rad == 0.5*pa.PI)
+                {
+                    x1 = x_on_line + _diff;
+                    y1 = y_on_line;
+                }
+            }
+            else if(drawMode == DrawMode.Parallel_to_coordinate)
+            {
+                if (direction == Direction.X)
+                {
+                    x1 = x_on_line;
+                    float y_diff = pa.random(-range, range);
+                    if(pa.random(1) >= 0.80)
+                    {
+                        y_diff = random_from_array(sign_list) * pa.random(range, 3*range);
+                    }
+                    y1 = y_on_line + y_diff * pa.cos(rad);
+                }
+                else if (direction == Direction.Y)
+                {
+                    y1 = y_on_line;
+                    float x_diff = pa.random(-range, range);
+                    if(pa.random(1) >= 0.80)
+                    {
+                        x_diff = random_from_array(sign_list) * pa.random(range, 3*range);
+                    }
+                    x1 = x_on_line + x_diff * pa.sin(rad);
+                }
+            }
+            pa.stroke(pa.random(360), 80, 80, 100);
+            pa.strokeWeight(size);
+            pa.line(x0, y0, x1, y1);
+            x0 = x1;
+            y0 = y1;
+        }
+    }
 }

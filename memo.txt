@@ -1,3 +1,17 @@
+■参考URL
+https://cc.musabi.ac.jp/kenkyu/cf/renew/program/processing/processing01.html
+
+■使ってないけど使ったら楽しそうな関数
+blendMode(SCREEN)
+blau() ぼかすやつ
+map()
+
+■ノイズの種類
+* パーリンノイズ
+* ピンクノイズ
+* ホワイトノイズ
+
+
 ■テクニック
 1. colorModeをHSBにしてHだけrandomにすると彩度と明度と透明度が揃った色のランダムにできる.
 1. 適度にノイズを混ぜてやるとディジタルっぽさがなくなり自然に見えやすい
@@ -64,3 +78,19 @@ Processing/librarlies/MyLib(パッケージ名)/library/MyLib.jar
 とすればよいっぽい
 Processingのメニューのライブラリをインポートから見えていれば成功
 
+
+■p5.js(javascript)
+・アロー関数
+基本は
+function_name =()=>{}
+
+function_name=_=>{}
+ともできる、このアンバーバーは単なる変数名らしい
+https://culage.hatenablog.com/entry/20171024/1508770800
+
+・``の招待
+文字列を表すが
+func()と
+func``
+はどちらも関数の実行を表す
+https://qiita.com/kura07/items/c9fa858870ad56dfec12#%E7%99%BA%E5%B1%95
