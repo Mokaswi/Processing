@@ -1,14 +1,12 @@
-int numA = 3;
-int numB = 10;
-int thr = 3;
-int count = 0;
-
+int numA = 10;
+int numB = 6;
+int thr = 160;
+float ratio = (float) numB / numA;
 void setup()
 {
     size(500, 500);
     colorMode(HSB, 1);
-    float ratio = (float) numB / numA;
-    divSquare(0, 0, width, ratio);
+    divSquare(0, 0, width);
 }
 
 void draw()
@@ -17,27 +15,21 @@ void draw()
 }
 
 // 正方形を長方形に分割する関数.
-void divSquare(float xPos, float yPos, float wd, float ratio)
-{
+void divSquare(float xPos, float yPos, float wd)
+{å
     int itr = 0;
     float xEndPos = wd + xPos;
     float yEndPos = wd + yPos;
-    while(wd > 0.1)
+    fill(color(random(1), 1 ,1));
+    rect(xPos, yPos, wd, wd);
+    while(wd > thr)
     {
         itr++;
-        fill(color(random(1), 1, 1));
         if(itr % 2 == 1)
         {
             while (xPos + wd * ratio < xEndPos + 0.1)
             {
-                if(count++ >= thr)
-                {
-                    rect(xPos, yPos, wd * ratio, wd);
-                }
-                else
-                {
-                    divRectangle(xPos, yPos, wd * ratio, wd);
-                }
+                divRectangle(xPos, yPos, wd * ratio);
                 xPos += wd * ratio;
             }
             wd = xEndPos - xPos;
@@ -46,14 +38,7 @@ void divSquare(float xPos, float yPos, float wd, float ratio)
         {
             while (yPos + wd / ratio < yEndPos + 0.1)
             {
-                if(count++ >= thr)
-                {
-                    rect(xPos, yPos, wd * ratio, wd);
-                }
-                else
-                {
-                    divRectangle(xPos, yPos, wd * ratio, wd);
-                }
+                divRectangle(xPos, yPos, wd);
                 yPos += wd / ratio;
             }
             wd = yEndPos - yPos;
@@ -62,36 +47,21 @@ void divSquare(float xPos, float yPos, float wd, float ratio)
 }
 
 // 長方形を正方形に分割する関数.
-void divRectangle(float xPos, float yPos, float width, float height)
+void divRectangle(float xPos, float yPos, float wd)
 {
     int itr = 0;
-    float wd = 0;
-    if(width > height)
-    {
-        wd = width;
-    }
-    else
-    {
-        wd = height;
-    }
-    float xEndPos = width + xPos;
-    float yEndPos = height + yPos;
-    while(wd > 0.1)
+    float xEndPos = xPos + wd;
+    float yEndPos = yPos + wd / ratio;
+    fill(color(random(1), 1, 1));
+    rect(xPos, yPos, wd, wd);
+    while(wd > thr)
     {
         itr++;
-        fill(color(random(1), 1, 1));
         if(itr % 2 == 1)
         {
             while (xPos + wd < xEndPos + 0.1)
             {
-                if(count++ >= thr)
-                {
-                    rect(xPos, yPos, wd, wd);
-                }
-                else
-                {
-                    divSquare(xPos, yPos, wd, width / height);
-                }
+                divSquare(xPos, yPos, wd);
                 xPos += wd;
             }
             wd = xEndPos - xPos;
@@ -100,17 +70,24 @@ void divRectangle(float xPos, float yPos, float width, float height)
         {
             while (yPos + wd < yEndPos + 0.1)
             {
-                if(count++ >= thr)
-                {
-                    rect(xPos, yPos, wd, wd);
-                }
-                else
-                {
-                    divSquare(xPos, yPos, wd, width / height);
-                }
+                divSquare(xPos, yPos, wd);
                 yPos += wd;
             }
             wd = yEndPos - yPos;
         }
     }
+}
+
+void mouseClicked()
+{
+    numA = (int)random(1, 20);
+    numB = (int)random(1, 20);
+    while(numA == numB)
+    {
+        numB = (int)random(1, 20);
+    }
+    thr = (int)random(10, 300);
+    ratio = (float)numA / numB;
+    background(0, 0, 1);
+    divSquare(0, 0, width);
 }

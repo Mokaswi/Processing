@@ -2,3 +2,4 @@
 **/.Ds_Store
 libraries/MyLib/classes/*
 libraries/controlP5
+node_modules/*

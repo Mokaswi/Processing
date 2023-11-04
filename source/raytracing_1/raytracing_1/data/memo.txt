@@ -19,11 +19,6 @@ map()
 1. ProcessingでrandomSeed()で値が固定できるもの -> random, noise
 1. PImage.set()したときは、PImage.updatePixels()してはいけないっぽい
 1. PImage.pixelsに直接代入したときはupdatePixels()する必要がある
-1. drawでbackground()しないことで痕跡を残せる
-1. 単純な形でもランダムにして繰り返すとgeneraltiveっぽくなる
-1. 形を決めるパラメータを変化させるとよい
-1. エージェントに描画させるのがひとつのパターンとしてある
-
 
 ■p5.js->processingの変換
 1. 型情報を足す
@@ -84,13 +79,6 @@ Processing/librarlies/MyLib(パッケージ名)/library/MyLib.jar
 Processingのメニューのライブラリをインポートから見えていれば成功
 
 
-・インタラクションのパターン
-衝突
- - その度に色が変わる
- - 重なっている距離でなにか表示する
- - 重なっている部分を消す
- - 
-
 ■p5.js(javascript)
 ・アロー関数
 基本は
@@ -106,16 +94,3 @@ func()と
 func``
 はどちらも関数の実行を表す
 https://qiita.com/kura07/items/c9fa858870ad56dfec12#%E7%99%BA%E5%B1%95
-
-
-
-■すきな色コード
-#CAD7CA (セイウンスカイの髪色)
-#A5BCB5 (eau de Nilでのgoogle検索結果その1)
-#A6BDB7 (eau de Nilでのgoogle検索結果その2)
-#CDDBCB (eau de Nilでのgoogle検索結果その3)
-
-
-■参考になるコード
-https://github.com/generative-design/Code-Package-Processing-3.x/blob/master/01_P/P_1_2_3_02/P_1_2_3_02.pde
-https://github.com/generative-design/Code-Package-Processing-3.x/tree/master/01_P/P_1_2_2_01
